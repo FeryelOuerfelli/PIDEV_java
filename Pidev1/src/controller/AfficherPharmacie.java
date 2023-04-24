@@ -1,10 +1,30 @@
 package controller;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import entities.Pharmacie;
+import java.awt.Desktop;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -33,13 +53,13 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import services.PharmacieService;
-import javafx.scene.image.Image;
+import utils.MyConnection;
 
 
 /**
  * FXML Controller class
  *
- * @author rouai
+ * @author feryel
  */
 public class AfficherPharmacie implements Initializable {
     @FXML
@@ -65,14 +85,23 @@ public class AfficherPharmacie implements Initializable {
 
     @FXML
     private TableColumn<Pharmacie, Button> deleteCol; 
+     @FXML
+    private Button  printbtn;
         @FXML
     private ImageView img;
+    private final Connection cnx;
+    private PreparedStatement prepared;
+    private  ResultSet resultat;
   
      
 
     @FXML
     private TextField tf_rechercher_pharmacie;
 
+    public AfficherPharmacie() {
+        MyConnection bd=MyConnection.getInstance();
+        cnx=bd.getCnx();
+    }
         /**
      * Initializes the controller class.
      */
@@ -103,7 +132,8 @@ public class AfficherPharmacie implements Initializable {
         } 
    
     
-    }    
+    } 
+     @FXML
        private void OnClickedPrint(ActionEvent event) {
          PrinterJob job = PrinterJob.createPrinterJob();
        
@@ -113,13 +143,14 @@ public class AfficherPharmacie implements Initializable {
      if(job != null){
      job.showPrintDialog(root.getScene().getWindow()); // Window must be your main Stage
      Printer printer = job.getPrinter();
-     PageLayout pageLayout = printer.createPageLayout(Paper.A3, PageOrientation.LANDSCAPE, Printer.MarginType.HARDWARE_MINIMUM);
+     PageLayout pageLayout = printer.createPageLayout(Paper.A3, PageOrientation.PORTRAIT, Printer.MarginType.HARDWARE_MINIMUM );
      boolean success = job.printPage(pageLayout, root);
      if(success){
         job.endJob();
      }
      }
     }
+       
      @FXML
     private void EditPharmacie(ActionEvent event) throws IOException {
         Pharmacie selectedForEdit = table_pharmacie.getSelectionModel().getSelectedItem();
@@ -205,7 +236,7 @@ public class AfficherPharmacie implements Initializable {
         num_tel.setCellValueFactory(new PropertyValueFactory<>("num_tel"));
         horaire.setCellValueFactory(new PropertyValueFactory<>("horaire"));
         etat.setCellValueFactory(new PropertyValueFactory<>("etat"));
-               services.setCellValueFactory(new PropertyValueFactory<>("services"));
+         services.setCellValueFactory(new PropertyValueFactory<>("services"));
 
             
         table_pharmacie.getItems().setAll(listPharmacie);
@@ -267,6 +298,5 @@ public class AfficherPharmacie implements Initializable {
                 }
             });
     }
+}
    
-        
-    }

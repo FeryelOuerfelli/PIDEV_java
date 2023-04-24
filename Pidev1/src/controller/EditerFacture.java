@@ -5,12 +5,30 @@
  */
 package controller;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import entities.Facture;
 import entities.Pharmacie;
+import java.awt.Desktop;
+import java.awt.print.PrinterException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -32,6 +50,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javax.swing.JTable;
 import services.FactureService;
 import utils.MyConnection;
 
@@ -44,6 +63,10 @@ public class EditerFacture implements Initializable {
 
     @FXML
     private Button valider;
+    @FXML
+    private Button  printbtn;
+    
+   
   
     @FXML
     private TextField tf_montant;
@@ -159,4 +182,86 @@ try{
 
     stageEdit.hide();
     }
-        }
+
+           @FXML
+              private void printbtnActionPerformed(ActionEvent event) throws IOException {
+          Document doc = new Document();
+try {
+PdfWriter.getInstance(doc , new FileOutputStream("C:\\Users\\Feryel\\Desktop\\Facture.pdf"));
+doc.open();
+Image img = Image.getInstance("C:\\Users\\Feryel\\Desktop\\logo1.png");
+img.scaleAbsoluteHeight(92);
+img.scaleAbsoluteWidth(200);
+img.setAlignment(Image.ALIGN_LEFT);
+doc.add (img);
+//Image img2 = Image.getInstance("C:\\Users\\Feryel\\Desktop\\logo2.png");
+//img2.scaleAbsoluteHeight(92);
+//img2.scaleAbsoluteWidth(200);
+//img2.setAlignment(Image.ALIGN_CENTER);
+//doc.add (img2);
+
+doc.add(new Paragraph("Facture "));
+doc.add(new Paragraph("--------------"));
+///////////////////////////////////:
+PdfPTable table = new PdfPTable(4);
+table.setWidthPercentage(100);
+PdfPCell cell ;
+cell = new PdfPCell (new Phrase("Num",FontFactory.getFont("Comic Sans MS", 12))) ;
+cell.setHorizontalAlignment (Element.ALIGN_CENTER);
+cell.setBackgroundColor (BaseColor.GRAY);
+table.addCell (cell);
+cell = new PdfPCell (new Phrase("Date",FontFactory.getFont("Comic Sans MS", 12))) ;
+cell.setHorizontalAlignment (Element.ALIGN_CENTER);
+cell.setBackgroundColor (BaseColor.GRAY);
+table.addCell (cell);
+cell = new PdfPCell (new Phrase("Montant",FontFactory.getFont("Comic Sans MS", 12))) ;
+cell.setHorizontalAlignment (Element.ALIGN_CENTER);
+cell.setBackgroundColor (BaseColor.GRAY);
+table.addCell (cell);
+cell = new PdfPCell (new Phrase("Etat",FontFactory.getFont("Comic Sans MS", 12))) ;
+cell.setHorizontalAlignment (Element.ALIGN_CENTER);
+cell.setBackgroundColor (BaseColor.GRAY);
+table.addCell (cell);
+/////////////////////////////////
+
+
+cell = new PdfPCell (new Phrase(tf_num_facture.getText(),FontFactory.getFont("Comic Sans MS", 12))) ;
+cell.setHorizontalAlignment (Element.ALIGN_CENTER);
+cell.setBackgroundColor (BaseColor.GRAY);
+table.addCell (cell);
+cell = new PdfPCell (new Phrase(tf_date.getValue().toString(),FontFactory.getFont("Comic Sans MS", 12))) ;
+cell.setHorizontalAlignment (Element.ALIGN_CENTER);
+cell.setBackgroundColor (BaseColor.GRAY);
+table.addCell (cell);
+cell = new PdfPCell (new Phrase(tf_montant.getText(),FontFactory.getFont("Comic Sans MS", 12))) ;
+cell.setHorizontalAlignment (Element.ALIGN_CENTER);
+cell.setBackgroundColor (BaseColor.GRAY);
+table.addCell (cell);
+cell = new PdfPCell (new Phrase(tf_etat.getText(),FontFactory.getFont("Comic Sans MS", 12))) ;
+cell.setHorizontalAlignment (Element.ALIGN_CENTER);
+cell.setBackgroundColor (BaseColor.GRAY);
+table.addCell (cell);
+doc.add(table) ;
+Image img1 = Image.getInstance("C:\\Users\\Feryel\\Desktop\\cachet.jpg");
+img1.scaleAbsoluteHeight(92);
+img1.scaleAbsoluteWidth(150);
+img1.setAlignment(Image.ALIGN_BOTTOM);
+doc.add (img1);
+doc.close();
+Desktop.getDesktop().open(new File("C:\\Users\\Feryel\\Desktop\\Facture.pdf") );
+}
+catch (FileNotFoundException e) {
+e.printStackTrace();
+}
+catch (DocumentException e) {
+
+e.printStackTrace();
+}
+catch (MalformedURLException e) {
+e.printStackTrace();
+}
+catch (IOException e) {
+e.printStackTrace();
+}
+              }
+}
