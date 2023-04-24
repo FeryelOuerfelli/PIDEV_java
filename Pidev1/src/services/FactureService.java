@@ -43,7 +43,7 @@ public class FactureService {
             preparedStatement = cnx.prepareStatement(request);
            
             preparedStatement.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
-            preparedStatement.setInt(2,f.getNumfacture());
+            preparedStatement.setString(2,f.getNumfacture());
             preparedStatement.setFloat(3,f.getMontant());
             preparedStatement.setString(4,f.getEtat());
             preparedStatement.setString(5,f.getImgsig());
@@ -66,7 +66,8 @@ public class FactureService {
     
     public void EditFacture (Facture f){
         System.out.println(f.getMontant());
-        String request = "UPDATE Facture SET montant=\""+f.getMontant()+"\" ,date =\""+new java.sql.Date(f.getDate().getTime())+"\",image_signature=\""+f.getImgsig()+"\",num_facture=\""+f.getNumfacture()+"\",etat=\""+f.getEtat()+"\"where id="+f.getIDf()+"";    
+    String request = "UPDATE Facture SET date=\""+new java.sql.Date(f.getDate().getTime())+"\" ,num_facture =\""+f.getNumfacture()+"\",montant=\""+f.getMontant()+"\",etat=\""+f.getEtat()+"\",image_signature=\""+f.getImgsig()+"\"where id="+f.getIDf()+"";    
+
         try {
             preparedStatement = cnx.prepareStatement(request);
             preparedStatement.executeUpdate();
@@ -88,7 +89,7 @@ public class FactureService {
                 Float montant = resultSet.getFloat("Montant");
                 Date date = resultSet.getDate("date");
               String image_signature = resultSet.getString("image_signature");
-              int num_facture = resultSet.getInt("num_facture");
+                String num_facture = resultSet.getString("num_facture");
               int idph = resultSet.getInt("pharmacie_id");
               int ordonnance = resultSet.getInt("ordonnance_id");
 
@@ -139,7 +140,7 @@ public class FactureService {
         while (resultSet.next()) {
             
             System.out.println("resultSet"+resultSet.getInt("id"));
-            f = new Facture(Idf,resultSet.getDate("date"),resultSet.getFloat("Montant"),resultSet.getInt("Numéro Facture"),resultSet.getString("image_signature"),resultSet.getString("etat"));
+            f = new Facture(Idf,resultSet.getDate("date"),resultSet.getFloat("Montant"),resultSet.getString("Numéro Facture"),resultSet.getString("image_signature"),resultSet.getString("etat"));
 
         }
         } catch (SQLException ex) {

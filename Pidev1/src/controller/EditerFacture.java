@@ -6,6 +6,8 @@
 package controller;
 
 import entities.Facture;
+import entities.Pharmacie;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,11 +25,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import services.FactureService;
 import utils.MyConnection;
 
@@ -54,11 +58,15 @@ public class EditerFacture implements Initializable {
      
  @FXML
    private TextField  tf_etat;
+  @FXML
+   private TextField  tf_ordonnance;
      
     
     private int Idf;
+   Facture f;
+
     
-    private int Idph;
+    private int pharmacieId;
     
     
     private final Connection cnx;
@@ -83,13 +91,12 @@ public class EditerFacture implements Initializable {
     
     public void inflateUI(Facture f) {
        Idf= f.getIDf();
-       Idph = f.getIDph();
-       etat = f.getEtat();
-      tf_montant= f.getMontant();
-       Idph = f.getIDph();
-       etat = f.getEtat(); 
-       Idph = f.getIDph();
-       etat = f.getEtat();
+      tf_etat.setText(f.getEtat());
+      tf_num_facture.setText(f.getNumfacture());
+      tf_image_signature.setText(f.getImgsig());
+       tf_montant.setText(f.getMontant() + "");
+      tf_ordonnance.setText(f.getOrdonnance()+ "");
+       pharmacieId= f.getIdph();
        tf_date.setValue(LocalDate.parse(outputFormat.format(f.getDate()), DateTimeFormatter.ofPattern("dd/MM/yyyy"))); // Set the DatePicker value using the formatted date
 
         
@@ -101,7 +108,6 @@ public class EditerFacture implements Initializable {
         
 try{
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat heureFormat = new SimpleDateFormat("HH:mm");
         if(tf_date.getValue() == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
@@ -113,13 +119,15 @@ try{
             try {
       Date date = dateFormat.parse(tf_date.getValue().toString());
                      float montant = Float.parseFloat(tf_montant.getText());
-                    int num_facture = Integer.parseInt(tf_num_facture.getText());
+                    String num_facture = tf_num_facture.getText();
                       String image_signature = tf_image_signature.getText();
                        String etat =  tf_etat.getText();
+                       int ordonnance = Integer.parseInt(tf_ordonnance.getText());
+
 
                  System.out.println("date controller"+date);
                  
-                Facture f = new Facture(date,num_facture,montant,image_signature,etat,ordonnance,idph);                FactureService factureService = new FactureService();
+                Facture f = new Facture(Idf,date,num_facture,montant,image_signature,etat,ordonnance,pharmacieId);                FactureService factureService = new FactureService();
                 factureService.EditFacture(f);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Modification Facture");
@@ -139,8 +147,16 @@ try{
             alert.showAndWait();
         }
         String title = "succes ";
-        String message = "rendezVous modifié avec succes";
+        String message = "Facture modifié avec succes";
      
      }
     
+       private void AfficherFactureAction(ActionEvent event) throws IOException {
+
+      // Parent parentAfficherPlanning= FXMLLoader.load(getClass().getResource("AfficherPlanning.fxml"));
+    //Scene scene = new Scene(parentAfficherPlanning);
+    Stage stageEdit = (Stage)((Node)event.getSource()).getScene().getWindow();
+
+    stageEdit.hide();
+    }
         }

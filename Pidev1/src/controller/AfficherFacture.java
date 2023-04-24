@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.print.PageOrientation;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -45,9 +46,13 @@ public class AfficherFacture implements Initializable {
     @FXML
     private TableColumn<Facture, String> image_signature;   
     @FXML
-    private TableColumn<Facture, Integer> num_facture; 
+    private TableColumn<Facture, String> num_facture; 
      @FXML
     private TableColumn<Facture, String>etat; 
+      @FXML
+    private Button pdffacturebtn;
+    @FXML
+    private Button pdffacture;
    
   
   
@@ -66,11 +71,13 @@ public class AfficherFacture implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             
-            
+
         listFacture = FactureService.showFacture();
-        montant.setCellValueFactory(new PropertyValueFactory<>("Montant"));
         date.setCellValueFactory(new PropertyValueFactory<>("date"));
-         etat.setCellValueFactory(new PropertyValueFactory<>("etat"));
+        montant.setCellValueFactory(new PropertyValueFactory<>("montant"));
+       etat.setCellValueFactory(new PropertyValueFactory<>("etat"));
+             image_signature.setCellValueFactory(new PropertyValueFactory<>("image_signature"));
+
 
        
 
@@ -146,11 +153,10 @@ public class AfficherFacture implements Initializable {
          try {
             
         listFacture = FactureService.showFacture();
-        idf.setCellValueFactory(new PropertyValueFactory<>("ID"));
-        montant.setCellValueFactory(new PropertyValueFactory<>("Montant"));
-        date.setCellValueFactory(new PropertyValueFactory<>("Date"));
-        image_signature.setCellValueFactory(new PropertyValueFactory<>("Signature"));
-        num_facture.setCellValueFactory(new PropertyValueFactory<>("numéro facture"));
+        image_signature.setCellValueFactory(new PropertyValueFactory<>("image_signature"));
+        date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        montant.setCellValueFactory(new PropertyValueFactory<>("montant"));
+        etat.setCellValueFactory(new PropertyValueFactory<>("etat"));
        
             
         table_Facture.getItems().setAll(listFacture);
@@ -212,6 +218,8 @@ public class AfficherFacture implements Initializable {
                 }
             });
     }
+   
+
    
         
     }

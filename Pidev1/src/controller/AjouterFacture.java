@@ -91,7 +91,7 @@ public class AjouterFacture implements Initializable{
                
                  Date date = dateFormat.parse(tf_date.getValue().toString());
                      float montant = Float.parseFloat(tf_montant.getText());
-                    int num_facture = Integer.parseInt(tf_num_facture.getText());
+                    String num_facture = tf_num_facture.getText();
                       String image_signature = tf_image_signature.getText();
                        String etat =  tf_etat.getText();
                       int ordonnance = Integer.parseInt(tf_ordonnance.getText());
