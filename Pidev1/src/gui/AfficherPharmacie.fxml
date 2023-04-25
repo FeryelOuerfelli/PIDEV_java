@@ -43,9 +43,9 @@
                 </ContextMenu>
             </contextMenu>
         </TableView>
-      <Button fx:id="printbtn" layoutX="634.0" layoutY="28.0" mnemonicParsing="false" onAction="#OnClickedPrint" prefHeight="37.0" prefWidth="100.0" text="imprimer" />
+      <Button fx:id="printbtn" layoutX="634.0" layoutY="28.0" mnemonicParsing="false" onAction="#OnClickedPrint" prefHeight="37.0" prefWidth="100.0" text="imprimer" style="-fx-background-color: #15558d;" styleClass="my-button"  textFill="WHITE" />
 
-      <Button fx:id="button_ajouter_pharmacie" layoutX="466.0" layoutY="34.0" onAction="#ajouterPharmacieAction" prefHeight="25.0" prefWidth="125.0" text="Ajouter Pharmacie" />
+      <Button fx:id="button_ajouter_pharmacie" layoutX="466.0" layoutY="34.0" onAction="#ajouterPharmacieAction" prefHeight="25.0" prefWidth="125.0" text="Ajouter Pharmacie" style="-fx-background-color: #15558d;" styleClass="my-button"  textFill="WHITE" />
     
       <TextField fx:id="tf_rechercher_pharmacie" layoutX="213.0" layoutY="34.0" onKeyReleased="#rechercherPharmacie" promptText="rechercher" />
       <AnchorPane prefHeight="612.0" prefWidth="195.0" style="-fx-background-color: #C0DFEF;">
