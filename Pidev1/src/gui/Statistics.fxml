@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Statistics">
+  <children>
+      <TabPane fx:id="admintabpane" layoutX="9.0" prefHeight="583.0" prefWidth="875.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="home" text="Stats">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <PieChart fx:id="chart" layoutX="6.0" layoutY="69.0" prefHeight="476.0" prefWidth="753.0" />
+                        <Label fx:id="labelstat" layoutX="6.0" prefHeight="56.0" prefWidth="718.0" text="PieChart" textFill="#87CEFA">
+                           <font>
+                              <Font name="System Bold Italic" size="18.0" />
+                           </font>
+                        </Label>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+           <Tab fx:id="flous" text="Revenu">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="labelstat2" layoutX="6.0" prefHeight="56.0" prefWidth="718.0" text="LineChart" textFill="#87CEFA">
+                           <font>
+                              <Font name="System Bold Italic" size="18.0" />
+                           </font>
+                        </Label>
+                        <LineChart layoutX="135.0" layoutY="56.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </LineChart>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+        
+            
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

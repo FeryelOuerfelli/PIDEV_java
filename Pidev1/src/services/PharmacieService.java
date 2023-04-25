@@ -5,14 +5,19 @@
  */
 package services;
 
+import controller.Statistics;
+import controller.StatisticsRevenu;
 import entities.Pharmacie;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,6 +28,7 @@ import javafx.print.Paper;
 import javafx.print.Printer;
 import javafx.print.PrinterJob;
 import javafx.scene.Node;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import utils.MyConnection;
@@ -162,5 +168,145 @@ public class PharmacieService {
         System.out.println(ph.toString());
         }
        return pharmacieStream;      }
+       public Pharmacie findPhById(int idph) throws SQLException{
+        String request = "SELECT * FROM pharmacie where id="+idph+"";
+        Pharmacie ph = null;
+         try {
+         preparedStatement = cnx.prepareStatement(request);
+         ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            
+            System.out.println("resultSet"+resultSet.getInt("id"));
+                ph = new Pharmacie(idph,resultSet.getString("nom"),resultSet.getString("adresse"),resultSet.getString("gouvernorat"),resultSet.getString("num_tel"), resultSet.getString("email"),
+                       resultSet.getString("matricule"),
+                        resultSet.getString("horaire"),
+                       resultSet.getString("etat"),
+                       resultSet.getString("description"),
+                        resultSet.getString("services"));
+             
+              
+        }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+                    
+        }
+         return ph;
+    }
+            public int CalculP() throws SQLException {
+         String sql = "SELECT * FROM pharmacie";
+        
+      
+     Statement statement = cnx.createStatement(); 
+     statement.setFetchSize(0);
+     
+     
+ResultSet resultat = statement.executeQuery(sql); 
+
+int n=0;
+while (resultat.next()) {
+   n=n+1;
+  
+}
+ System.out.println(n);
+  
+ return n;
+         
+}
+    
+            
+            
+            public ObservableList<XYChart.Series<String, Number>> dataChart() {
+          ObservableList<XYChart.Series<String, Number>> answer = FXCollections.observableArrayList();
+          XYChart.Series<String, Number> serie1 = new XYChart.Series<String, Number>();
+          XYChart.Series<String, Number> serie2 = new XYChart.Series<String, Number>();
+          XYChart.Series<String, Number> serie3 = new XYChart.Series<String, Number>();
+          XYChart.Series<String, Number> serie4 = new XYChart.Series<String, Number>();
+          
+          serie1.setName("Android");
+          serie2.setName("Windows Phone");
+          serie3.setName("iOS");
+          serie4.setName("J2ME");
+          
+          String requete = "SELECT CASE month(date_debut) when \"01\" then \"Janvier\" when \"02\" then \"Fevrier\" when \"03\" then \"Mars\" when \"04\" then \"Avril\" when \"05\" then \"Mai\" when \"06\" then \"Juin\" when \"07\" then \"Juillet\" when \"08\" then \"Aout\" when \"09\" then \"Septembre\" when \"10\" then \"Octobre\" when \"11\" then \"Novembre\" when \"12\" then \"Decembre\" END , COUNT(c.nom_cours), c.nom_cours FROM coursuivi cs, cours c where cs.id_cours=c.idcours GROUP BY month(cs.date_debut), c.nom_cours ; " ; 
+        try {
+            PreparedStatement ps = cnx.prepareStatement(requete);
+            ResultSet rs = ps.executeQuery() ; 
+            while (rs.next()) {
+                System.out.println(rs.getString(3)+" "+rs.getString(2)+" "+rs.getString(1));
+                switch (rs.getString(3)) {
+                    case "Android":
+                        serie1.getData().add(new XYChart.Data(rs.getString(1), rs.getInt(2)));
+                        break;
+                    case "Windows Phone":
+                        serie2.getData().add(new XYChart.Data(rs.getString(1), rs.getInt(2)));
+                        break;
+                    case "iOS":
+                        serie3.getData().add(new XYChart.Data(rs.getString(1), rs.getInt(2)));
+                        break;
+                    case "J2ME":
+                        serie4.getData().add(new XYChart.Data(rs.getString(1), rs.getInt(2)));
+                        break;
+                }
+            }
+            answer.addAll(serie1,serie2,serie3,serie4) ; 
+            return answer ; 
+        } catch (SQLException ex) {
+            Logger.getLogger(StatisticsRevenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null ; 
+      }
+      
+      public ObservableList<XYChart.Series<String, Number>> dataChartSecond() {
+          ObservableList<XYChart.Series<String, Number>> answer = FXCollections.observableArrayList();
+          XYChart.Series<String, Number> serie1 = new XYChart.Series<String, Number>();
+          XYChart.Series<String, Number> serie2 = new XYChart.Series<String, Number>();
+          XYChart.Series<String, Number> serie3 = new XYChart.Series<String, Number>();
+          XYChart.Series<String, Number> serie4 = new XYChart.Series<String, Number>();
+          int x = 0 ; 
+          int y = 0 ;
+          int z = 0 ;
+          int w = 0 ;
+          
+          serie1.setName("Android");
+          serie2.setName("Windows Phone");
+          serie3.setName("iOS");
+          serie4.setName("J2ME");
+          
+          String requete = "SELECT CASE month(date) when \"01\" then \"Janvier\" when \"02\" then \"Fevrier\" when \"03\" then \"Mars\" when \"04\" then \"Avril\" when \"05\" then \"Mai\" when \"06\" then \"Juin\" when \"07\" then \"Juillet\" when \"08\" then \"Aout\" when \"09\" then \"Septembre\" when \"10\" then \"Octobre\" when \"11\" then \"Novembre\" when \"12\" then \"Decembre\" END , COUNT(pharmacie), pharmacie FROM pharmacie cs, cours c where cs.id_cours=c.idcours GROUP BY month(cs.date_debut), c.nom_cours ; " ; 
+        try {
+            PreparedStatement ps = cnx.prepareStatement(requete);
+            ResultSet rs = ps.executeQuery() ; 
+            while (rs.next()) {
+                
+                
+                System.out.println(rs.getString(3)+" "+rs.getString(2)+" "+rs.getString(1));
+                switch (rs.getString(3)) {
+                    case "Android":
+                        x= x + rs.getInt(2);
+                        serie1.getData().add(new XYChart.Data(rs.getString(1), x));
+                        break;
+                    case "Windows Phone":
+                        y= y + rs.getInt(2);
+                        serie2.getData().add(new XYChart.Data(rs.getString(1), y));
+                        break;
+                    case "iOS":
+                        z= z + rs.getInt(2);
+                        serie3.getData().add(new XYChart.Data(rs.getString(1), z));
+                        break;
+                    case "J2ME":
+                        w= w + rs.getInt(2);
+                        serie4.getData().add(new XYChart.Data(rs.getString(1), w));
+                        break;
+                }
+            }
+            answer.addAll(serie1,serie2,serie3,serie4) ; 
+            return answer ; 
+        } catch (SQLException ex) {
+            Logger.getLogger(StatisticsRevenu.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return null ; 
+      }
+      
          
 }

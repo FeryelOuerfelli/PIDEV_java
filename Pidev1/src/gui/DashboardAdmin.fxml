@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="563.0" prefWidth="810.0" style="-fx-background-color: #FFFFFF" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashboardAdmin">
+    
+    <children>
+        <TabPane fx:id="admintabpane" layoutX="9.0" prefHeight="583.0" prefWidth="875.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="home" text="Liste des pharmacies">
+            <content>
+                <TableView fx:id="table_pharmacie" layoutX="182.0" layoutY="95.0" prefHeight="460.0" prefWidth="628.0" style="-fx-background-color: #ddf8f8;">
+          
+            <columns>
+                <TableColumn fx:id="nom" minWidth="0.0" prefWidth="77.0" text="Nom" />
+                <TableColumn fx:id="adresse" prefWidth="83.0" text="Adresse" />
+                <TableColumn fx:id="gouvernorat" minWidth="0.0" prefWidth="105.0" text="Gouvernorat" />
+            <TableColumn fx:id="num_tel" prefWidth="51.0" text="Numéro de Telephone" />
+            <TableColumn fx:id="etat" minWidth="0.0" prefWidth="37.0" text="Etat" />
+            <TableColumn fx:id="horaire" minWidth="0.0" prefWidth="61.0" text="Horaire" />
+          <TableColumn fx:id="services" minWidth="0.0" prefWidth="61.0" text="Services" />
+          
+
+            </columns>
+            <columnResizePolicy>
+              
+            </columnResizePolicy>
+            <contextMenu>
+                <ContextMenu>
+                    <items>
+                   <MenuItem mnemonicParsing="false" onAction="#supprimerPharmacie" text="Supprimer" />
+
+                 <MenuItem mnemonicParsing="false" onAction="#EditPharmacie" text="Edit" />
+                 <MenuItem mnemonicParsing="false" onAction="#OnClickedPrint" text="Imprimer" />
+
+                    </items>
+                                                                   
+                </ContextMenu>
+            </contextMenu>
+        </TableView>
+         </content>
+
+          </Tab>
+           <Tab fx:id="flous" text="Statistiques">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="labelstat2" layoutX="6.0" prefHeight="56.0" prefWidth="718.0" text="BarChart" textFill="#87CEFA">
+                           <font>
+                              <Font name="System Bold Italic" size="18.0" />
+                           </font>
+                        </Label>
+                        <BarChart fx:id="barChart" layoutX="135.0" layoutY="56.0" stylesheets="@styles.css">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </BarChart>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+        
+            
+        </tabs>
+      </TabPane>
+                 
+         </children>
+      </AnchorPane>

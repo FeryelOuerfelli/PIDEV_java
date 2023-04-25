@@ -4,6 +4,9 @@ import entities.Facture;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +21,8 @@ import javafx.print.PageOrientation;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -28,11 +33,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import services.FactureService;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
+import utils.MyConnection;
 
 /**
  * FXML Controller class
  *
- * @author rouai
+ * @author feryel
  */
 public class AfficherFacture implements Initializable {
     @FXML
@@ -53,12 +61,20 @@ public class AfficherFacture implements Initializable {
     private Button pdffacturebtn;
     @FXML
     private Button pdffacture;
+    @FXML
+        private BarChart<String, Number> barChart;    
+
+       private  Connection cnx;
+    private PreparedStatement  preparedStatement;
    
   
   
-     
+      public AfficherFacture() {
+        MyConnection bd=MyConnection.getInstance();
+        cnx=bd.getCnx();
+    
 
-
+      }
         /**
      * Initializes the controller class.
      */
@@ -69,6 +85,24 @@ public class AfficherFacture implements Initializable {
     public List<Facture> factures;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+try {
+            String queryChartData = "SELECT date, COUNT(*) AS nbfactures FROM facture GROUP BY date";
+             preparedStatement = cnx.prepareStatement(queryChartData);
+            ResultSet rs =  preparedStatement.executeQuery();
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("factures par jour");
+            while (rs.next()) {
+                String date = rs.getString("date");
+                int nbfactures = rs.getInt("nbfactures");
+                series.getData().add(new XYChart.Data<>(date, nbfactures));
+            }
+            barChart.getData().add(series);
+           preparedStatement.close();
+            rs.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
         try {
             
 
@@ -79,14 +113,13 @@ public class AfficherFacture implements Initializable {
              image_signature.setCellValueFactory(new PropertyValueFactory<>("image_signature"));
 
 
-       
-
-
         table_Facture.getItems().setAll(listFacture);
 //           
     }   catch (SQLException ex) { 
             System.out.println(ex);
         } 
+        
+
     
     }    
     

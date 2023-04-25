@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,7 @@ import javafx.print.Paper;
 import javafx.print.Printer;
 import javafx.print.PrinterJob;
 import javafx.scene.Node;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import utils.MyConnection;
@@ -171,5 +173,69 @@ public class FactureService {
              System.out.println ("service archive erreur");
         }
     }
+           
+      public int CalculP() throws SQLException {
+         String sql = "SELECT etat FROM facture";
+        
+      
+     Statement statement = cnx.createStatement(); 
+     statement.setFetchSize(0);
+     
+     
+ResultSet resultat = statement.executeQuery(sql); 
+
+int nombreFacturesPayees = 0;
+while (resultat.next()) {
+    String etatFacture = resultat.getString("etat");
+   if (etatFacture.equals("Payé")) {
+        nombreFacturesPayees++;
+    }
+}
+   System.out.println(nombreFacturesPayees);
+ return nombreFacturesPayees;
+}
+         
+
+           public int CalculNonP() throws SQLException {
+          String sql = "SELECT etat FROM facture;";    
+
+        
+      
+     Statement statement = cnx.createStatement(); 
+     statement.setFetchSize(0);
+     
+     
+ResultSet resultat = statement.executeQuery(sql); 
+
+int nombreFacturesNonPayees = 0;
+while (resultat.next()) {
+    String etatFacture = resultat.getString("etat");
+   if (etatFacture.equals("Non Payé")) {
+        nombreFacturesNonPayees++;
+    }
+}
+   System.out.println(nombreFacturesNonPayees);
+ return nombreFacturesNonPayees;
+}
+           
+           
+                       public void Revenu() throws SQLException {
+         String sql = "SELECT date , SUM(montant) FROM facture GROUP BY date ORDER BY TIMESTAMP(date) ASC LIMIT 8";
+        
+      try {
+          XYChart.Series chartData = new XYChart.Series();
+            preparedStatement = cnx.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+     while (resultSet.next()) {
+         chartData.getData().add(new XYChart.Data(resultSet.getString(1),resultSet.getFloat(2)));
+
+      }
+      }
+      catch (Exception e) {
+      e.printStackTrace();}
+
+
          
 }
+            
+     }

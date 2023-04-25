@@ -42,6 +42,8 @@ import javafx.print.PrinterJob;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -97,6 +99,10 @@ public class AfficherPharmacie implements Initializable {
 
     @FXML
     private TextField tf_rechercher_pharmacie;
+      @FXML
+        private BarChart<String, Number> barChart;    
+
+    private PreparedStatement  preparedStatement;
 
     public AfficherPharmacie() {
         MyConnection bd=MyConnection.getInstance();
@@ -113,7 +119,23 @@ public class AfficherPharmacie implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            
+            try {
+            String queryChartData = "SELECT date, COUNT(*) AS nbpharmacies FROM pharmacie GROUP BY date";
+             preparedStatement = cnx.prepareStatement(queryChartData);
+            ResultSet rs =  preparedStatement.executeQuery();
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Pharmacies par jour");
+            while (rs.next()) {
+                String date = rs.getString("date");
+                int nbfactures = rs.getInt("nbpharmacies");
+                series.getData().add(new XYChart.Data<>(date, nbfactures));
+            }
+            barChart.getData().add(series);
+           preparedStatement.close();
+            rs.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
             
         listPharmacie = pharmacieService.showPharmacie();
         nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
@@ -298,5 +320,6 @@ public class AfficherPharmacie implements Initializable {
                 }
             });
     }
-}
    
+}
+    
