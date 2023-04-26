@@ -139,9 +139,9 @@
     -fx-background-radius: 0px;
     -fx-text-fill: #b8b1b1;
 }
-.chart-bar  {
-    -fx-bar-color: #1E90FF;
- -fx-bar-color: #87CEFA;
-
-
+.chart-bar {
+    -fx-bar-fill: #87CEFA;
+}
+.chart-pie {
+    -fx-pie-color: #007aff, #89cff0;
 }

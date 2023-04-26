@@ -8,7 +8,8 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="533.0" prefWidth="628.0" xmlns="http://javafx.com/javafx/19" style="-fx-background-color: #ddf8f8;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditPharmacie">
-        <children>
+
+    <children>
       <Button fx:id="valider" contentDisplay="CENTER" layoutX="251.0" layoutY="469.0" mnemonicParsing="false" onAction="#Valider" prefHeight="31.0" prefWidth="110.0" text="Editer" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="251.0" />
       <Label layoutX="19.0" layoutY="100.0" prefHeight="20.0" prefWidth="97.0" text="Nom">
          <font>

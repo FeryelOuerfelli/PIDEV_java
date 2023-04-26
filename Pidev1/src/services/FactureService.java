@@ -78,8 +78,8 @@ public class FactureService {
              System.out.println(ex);
              System.out.println ("service edit erreur");
     }}
-    
-        public ObservableList<Facture> showFacture() throws SQLException{
+    /*
+      public ObservableList<Facture> showFacture() throws SQLException{
         String request = "SELECT * FROM facture";
         ObservableList<Facture> factureList =  FXCollections.observableArrayList();
         try {
@@ -87,11 +87,11 @@ public class FactureService {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int idf = resultSet.getInt("id");
-                String etat = resultSet.getString("etat");
-                Float montant = resultSet.getFloat("Montant");
-                Date date = resultSet.getDate("date");
-              String image_signature = resultSet.getString("image_signature");
+                 Date date = resultSet.getDate("date");
                 String num_facture = resultSet.getString("num_facture");
+                Float montant = resultSet.getFloat("Montant");
+              String image_signature = resultSet.getString("image_signature");
+                String etat = resultSet.getString("etat");
               int idph = resultSet.getInt("pharmacie_id");
               int ordonnance = resultSet.getInt("ordonnance_id");
 
@@ -109,9 +109,45 @@ public class FactureService {
         }
 
         return factureList;
+        }
+    */
+      
+        
+       public ObservableList<Facture> showFacture() throws SQLException{
+        String request = "SELECT * FROM facture";
+        ObservableList<Facture> factureList =  FXCollections.observableArrayList();
+        try {
+            preparedStatement = cnx.prepareStatement(request);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+
+                int idf = resultSet.getInt("id");
+                Date date = resultSet.getDate("date");
+                String num_facture = resultSet.getString("num_facture");
+                Float montant = resultSet.getFloat("montant");
+                    String image_signature = resultSet.getString("image_signature");
+
+                String etat = resultSet.getString("etat");
+                  int ordonnance = resultSet.getInt("ordonnance_id");
+
+                int idph = resultSet.getInt("pharmacie_id");
+                 
+               
+
+               Facture facture = new Facture(idf, date, num_facture, montant,image_signature, etat, ordonnance, idph) ;
+               factureList.add(facture);
+
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+                    
+        }
+
+        return factureList;
         
 
     }
+    
         
     public void supprimerFacture (int idFacture){
           

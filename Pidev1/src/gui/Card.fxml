@@ -2,95 +2,86 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="196.0" prefWidth="250.0" style="-fx-border-radius: 10px; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CardController">
+<AnchorPane id="AnchorPane" prefHeight="462.0" prefWidth="811.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CardController" >
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="290.0" prefWidth="300.0" style="-fx-background-radius: 30px; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox prefHeight="84.0" prefWidth="250.0">
+      <HBox alignment="CENTER" prefHeight="109.0" prefWidth="400.0">
          <children>
-            <Circle fx:id="circleImg" fill="WHITE" radius="45.0" stroke="BLACK" strokeType="INSIDE">
+            <Circle fx:id="circleImg" fill="WHITE" radius="48.0" stroke="BLACK" strokeType="INSIDE">
                <HBox.margin>
-                  <Insets left="10.0" top="5.0" />
+                  <Insets />
                </HBox.margin>
             </Circle>
-            <VBox prefHeight="60.0" prefWidth="150.0">
-               <children>
-                  <Button mnemonicParsing="false" prefHeight="17.0" prefWidth="42.0" rotate="-90.0" style="-fx-background-color: #ffff;" text=". . .">
-                     <VBox.margin>
-                        <Insets left="100.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                     <contextMenu>
-                        <ContextMenu>
-                          <items>
-                            <MenuItem mnemonicParsing="false" onAction="#EditFacture" text="modifier" />
-                          </items>
-                        </ContextMenu>
-                     </contextMenu>
-                  </Button>
-                  <Button fx:id="confirmBt" mnemonicParsing="false" onAction="#confirmerfacture" prefHeight="25.0" prefWidth="71.0" style="-fx-background-color: rgba(15, 183, 107,0.12);" text="Confirmer" textFill="#26af48">
-                     <VBox.margin>
-                        <Insets left="70.0" />
-                     </VBox.margin>
-                  </Button>
-                  <Button fx:id="annuleBt" mnemonicParsing="false" onAction="#archiverf" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: rgba(242, 17, 54,0.12) !important;" text="Annuler" textFill="#e63c3c">
-                     <VBox.margin>
-                        <Insets left="70.0" top="10.0" />
-                     </VBox.margin>
-                  </Button>
-               </children>
-            </VBox>
          </children>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox alignment="CENTER" prefHeight="45.0" prefWidth="300.0">
          <children>
-            <VBox prefHeight="100.0" prefWidth="251.0" style="-fx-border-radius: 10;">
-               <children>
-                  <Label fx:id="numLb" text="foulen">
-                     <VBox.margin>
-                        <Insets left="10.0" top="10.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Calibri Bold" size="15.0" />
-                     </font>
-                  </Label>
-                  <HBox prefHeight="30.0" prefWidth="200.0">
-                     <children>
-                        <Label fx:id="dateLb" prefHeight="37.0" prefWidth="65.0" text="22/04/2023">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="montantLb" prefHeight="30.0" prefWidth="87.0" style="-fx-border-radius: 10;" text="50 Dt">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="etatLb" prefHeight="30.0" prefWidth="80.0" text="etat">
-                           <font>
-                              <Font name="System Bold" size="11.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="5.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
-                  
-               </children>
-            </VBox>
+            <Label fx:id="nom" alignment="CENTER" prefHeight="34.0" prefWidth="183.0" text="Pharmacie">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="41.0" prefWidth="300.0">
+         <children>
+            <Label fx:id="adresse" alignment="CENTER" prefHeight="30.0" prefWidth="87.0" text=" Adresse">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+        <HBox alignment="CENTER" prefHeight="47.0" prefWidth="393.0">
+         <children>
+            <Label fx:id="num_tel" text="Numéro" textFill="#4d4c4c">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="47.0" prefWidth="393.0">
+         <children>
+            <Label fx:id="email" text="pharma@gmail.com" textFill="#4d4c4c">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="37.0" prefWidth="393.0">
+         <children>
+            <Label fx:id="etat" text="Ferme">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="76.0" prefWidth="393.0" spacing="50.0">
+         <children>
+            
+        
          </children>
       </HBox>
    </children>
 </VBox>
+</AnchorPane>

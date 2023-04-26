@@ -11,6 +11,7 @@ package controller;
  */
 
 
+
 import entities.Pharmacie;
 import entities.Facture;
 import java.io.IOException;
@@ -41,13 +42,28 @@ import services.FactureService;
 /**
  * FXML Controller class
  *
- * @author rouai
+ * @author feryel
  */
 public class CardController implements Initializable {
+        @FXML
+    private Label adresse;
+
     @FXML
     private Circle circleImg;
+
     @FXML
-    private ImageView imageLb;
+    private Label email;
+
+    @FXML
+    private Label etat;
+
+    @FXML
+    private Label nom;
+
+    @FXML
+    private Label num_tel;
+
+
     @FXML
     private Button confirmBt;
     @FXML
@@ -58,51 +74,56 @@ public class CardController implements Initializable {
         @FXML
     private Label ordoLb;
     @FXML
-    private Label dateLb;
+    private Label adresseLb;
     @FXML
     private Label montantLb;
     @FXML
     private Label etatLb;
     Facture facture;
+    Pharmacie ph;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         circleImg.setStroke(Color.SEAGREEN);
-        Image im = new Image("./utils/img/patient.jpg",false);
+        Image im = new Image("./utils/img/pharmacie.jpg",false);
         circleImg.setFill(new ImagePattern(im));
         
        
     }  
     
-    public void setData(Facture f){
-        this.facture = f;
-        System.out.println(facture.getIDf());
-        int maxLength = 20; // set the maximum length of the text
-        circleImg.setStroke(Color.SEAGREEN);
-        Image im = new Image("./utils/img/patient.jpg",false);
-        etatLb.setText(f.getEtat());
-          if(f.getEtat().equals("Non Payé")){
-            etatLb.setTextFill(Color.ORANGE); // set the text color to red    
-          }else if(f.getEtat().equals("Payé")){
-            etatLb.setTextFill(Color.GREEN); // set the text color to red    
-          }else{
-            etatLb.setTextFill(Color.RED); // set the text color to red    
-
-    }
-        circleImg.setFill(new ImagePattern(im));
-        dateLb.setText(f.getDate().toString());
+   public void setData(Pharmacie ph){
+        this.ph =ph ;
        
+        nom.setText(ph.getNom().substring(0, 1).toUpperCase() +ph.getNom().substring(1) );
+        email.setText(ph.getEmail());
+        adresse.setText(ph.getAdresse());
+        num_tel.setText(ph.getNum_tel());
+        etat.setText(ph.getEtat());
+        if(ph.getEtat().equals("Ouvert")){
+                       
+            etat.setTextFill(Color.GREEN);     
+        }
+        else if(ph.getEtat().equals("Ferme")){
+            
+            etat.setTextFill(Color.RED); 
+        }
+            
+        
+       
+     }
+     
+     
 
        // symptomesLb.setText(f.getSymptomes().substring(0, Math.min(f.getSymptomes().length(), maxLength)));
         //if (f.getSymptomes().length() > maxLength) {
         //Tooltip tooltip = new Tooltip(f.getSymptomes()); // create a tooltip to show the full text
         //symptomesLb.setTooltip(tooltip); // set the tooltip on the label
         //System.out.println(facture.getEtat());}
-    }
+   
     
-    
+    /*
     @FXML
     void annulerRdv(ActionEvent event) {
 
@@ -187,6 +208,6 @@ public class CardController implements Initializable {
             e.printStackTrace();
         }
     }
-    
+    */
  
 }

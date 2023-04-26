@@ -28,8 +28,6 @@ import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -54,7 +52,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import services.PharmacieService;
@@ -66,62 +63,7 @@ import utils.MyConnection;
  *
  * @author feryel
  */
-public class AfficherPharmacie implements Initializable {
-    
-    @FXML
-    private Button btnfac;
-
-    @FXML
-    private Button btnpharma;
-    
-    @FXML
-    void btnfacaction(ActionEvent event) throws IOException {
-          FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/AfficherFacture.fxml"));
-        Parent parent = loader.load();
-        AfficherFacture controller = (AfficherFacture) loader.getController();
-        Stage stage = new Stage(StageStyle.DECORATED);
-        stage.setTitle("Afficher Facture");
-        stage.setScene(new Scene(parent));
-        stage.show();
-                 stage.setOnHiding((e) -> {
-                try {
-                    handleRefresh(new ActionEvent());
-                    loadData();
-                   
-                    
-                }catch (SQLException ex) {
-                    System.out.println(ex);
-                   // Logger.getLogger("gg").log(Level.SEVERE, null, ex);
-                }
-            });
-
-
-    }
-
-    @FXML
-    void btnpharmaaction(ActionEvent event) throws IOException {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/AfficherPharmacie.fxml"));
-        Parent parent = loader.load();
-        AfficherPharmacie controller = (AfficherPharmacie) loader.getController();
-        Stage stage = new Stage(StageStyle.DECORATED);
-        stage.setTitle("Afficher Pharmacie");
-        stage.setScene(new Scene(parent));
-        stage.show();
-                 stage.setOnHiding((e) -> {
-                try {
-                    handleRefresh(new ActionEvent());
-                    loadData();
-                   
-                    
-                }catch (SQLException ex) {
-                    System.out.println(ex);
-                   // Logger.getLogger("gg").log(Level.SEVERE, null, ex);
-                }
-            });
-
-
-    }
-   
+public class DashboardAdmin implements Initializable {
     @FXML
     private TableView<Pharmacie> table_pharmacie;
       @FXML
@@ -161,9 +103,8 @@ public class AfficherPharmacie implements Initializable {
         private BarChart<String, Number> barChart;    
 
     private PreparedStatement  preparedStatement;
-  
 
-    public AfficherPharmacie() {
+    public DashboardAdmin() {
         MyConnection bd=MyConnection.getInstance();
         cnx=bd.getCnx();
     }
@@ -177,11 +118,26 @@ public class AfficherPharmacie implements Initializable {
     public List<Pharmacie> pharmacies;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       
-     
         try {
-            listPharmacie = pharmacieService.showPharmacie();
-       
+            try {
+            String queryChartData = "SELECT gouvernorat, COUNT(*) AS nbpharmacies FROM pharmacie GROUP BY gouvernorat";
+             preparedStatement = cnx.prepareStatement(queryChartData);
+            ResultSet rs =  preparedStatement.executeQuery();
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Pharmacies par gouvernorat");
+            while (rs.next()) {
+                String gouvernorat = rs.getString("gouvernorat");
+                int nbpharmacies = rs.getInt("nbpharmacies");
+                series.getData().add(new XYChart.Data<>(gouvernorat, nbpharmacies));
+            }
+            barChart.getData().add(series);
+           preparedStatement.close();
+            rs.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+            
+        listPharmacie = pharmacieService.showPharmacie();
         nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         adresse.setCellValueFactory(new PropertyValueFactory<>("adresse"));
         gouvernorat.setCellValueFactory(new PropertyValueFactory<>("gouvernorat"));
@@ -193,16 +149,12 @@ public class AfficherPharmacie implements Initializable {
 
         table_pharmacie.getItems().setAll(listPharmacie);
 //           
-    
-        } 
-                
-       catch (SQLException ex) { 
+    }   catch (SQLException ex) { 
             System.out.println(ex);
-        }
-    }
+        } 
    
     
-     
+    } 
      @FXML
        private void OnClickedPrint(ActionEvent event) {
          PrinterJob job = PrinterJob.createPrinterJob();
@@ -344,31 +296,7 @@ public class AfficherPharmacie implements Initializable {
 
     }
 
-    @FXML
-    void ajouterfacture(ActionEvent event) throws IOException {
-        Pharmacie selectedP = table_pharmacie.getSelectionModel().getSelectedItem();
-        
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/Ajouterfacture.fxml"));
-        Parent parent = loader.load();
-        AjouterFacture controller = (AjouterFacture) loader.getController();
-        controller.setPharmacieId(selectedP);
-        Stage stage = new Stage(StageStyle.DECORATED);
-        stage.setTitle("Ajouter facture");
-        stage.setScene(new Scene(parent));
-        stage.show();
-                 stage.setOnHiding((e) -> {
-                try {
-                    handleRefresh(new ActionEvent());
-                    loadData();
-                   
-                    
-                }catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                   // Logger.getLogger("gg").log(Level.SEVERE, null, ex);
-                }
-            });
-    }
     
-  
+   
 }
     

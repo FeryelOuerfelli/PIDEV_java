@@ -8,9 +8,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormatSymbols;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -34,8 +38,14 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import services.FactureService;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.input.MouseEvent;
 import utils.MyConnection;
+
 
 /**
  * FXML Controller class
@@ -43,6 +53,75 @@ import utils.MyConnection;
  * @author feryel
  */
 public class AfficherFacture implements Initializable {
+       @FXML
+    private Button btnfac;
+
+    @FXML
+    private Button btnpharma;
+    
+    @FXML
+    void btnfacaction(ActionEvent event) throws IOException {
+          FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/AfficherFacture.fxml"));
+        Parent parent = loader.load();
+        AfficherFacture controller = (AfficherFacture) loader.getController();
+        Stage stage = new Stage(StageStyle.DECORATED);
+        stage.setTitle("Afficher Facture");
+        stage.setScene(new Scene(parent));
+        stage.show();
+                 stage.setOnHiding((e) -> {
+                try {
+                    handleRefresh(new ActionEvent());
+                    loadData();
+                   
+                    
+                }catch (SQLException ex) {
+                    System.out.println(ex);
+                   // Logger.getLogger("gg").log(Level.SEVERE, null, ex);
+                }
+            });
+
+
+    }
+
+    @FXML
+    void btnpharmaaction(ActionEvent event) throws IOException {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/AfficherPharmacie.fxml"));
+        Parent parent = loader.load();
+        AfficherPharmacie controller = (AfficherPharmacie) loader.getController();
+        Stage stage = new Stage(StageStyle.DECORATED);
+        stage.setTitle("Afficher Pharmacie");
+        stage.setScene(new Scene(parent));
+        stage.show();
+                 stage.setOnHiding((e) -> {
+                try {
+                    handleRefresh(new ActionEvent());
+                    loadData();
+                   
+                    
+                }catch (SQLException ex) {
+                    System.out.println(ex);
+                   // Logger.getLogger("gg").log(Level.SEVERE, null, ex);
+                }
+            });
+
+
+    }
+      @FXML
+    private Tab factures;
+
+    @FXML
+    private Tab flous;
+
+    @FXML
+    private Tab home;
+        @FXML
+    private Label labelstat;
+
+    @FXML
+    private Label labelstat2;
+    
+    @FXML
+    private Label labelstat3;
     @FXML
     private TableView<Facture> table_Facture;
       @FXML
@@ -51,6 +130,8 @@ public class AfficherFacture implements Initializable {
     private TableColumn<Facture, Float> montant; 
       @FXML
     private TableColumn<Facture, Date> date;   
+          @FXML
+    private TableColumn<Facture, Integer> idph; 
     @FXML
     private TableColumn<Facture, String> image_signature;   
     @FXML
@@ -63,6 +144,11 @@ public class AfficherFacture implements Initializable {
     private Button pdffacture;
     @FXML
         private BarChart<String, Number> barChart;    
+      @FXML
+        private LineChart<String, Float> LineChart; 
+      @FXML
+    private PieChart chart;
+ 
 
        private  Connection cnx;
     private PreparedStatement  preparedStatement;
@@ -82,7 +168,6 @@ public class AfficherFacture implements Initializable {
     ObservableList<Facture> listFacture =  FXCollections.observableArrayList();
     FactureService FactureService = new FactureService();
     Facture f = new Facture();
-    public List<Facture> factures;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -103,6 +188,59 @@ try {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+try {
+            String queryChartData = "SELECT MONTH(date) as mois , SUM(montant) AS total FROM facture GROUP BY date";
+
+             preparedStatement = cnx.prepareStatement(queryChartData);
+            ResultSet rs =  preparedStatement.executeQuery();
+            XYChart.Series <String, Float> series = new XYChart.Series<>();
+            series.setName("Croissance du revenu");
+              DateFormatSymbols dfs = new DateFormatSymbols();
+    String[] months = dfs.getMonths();
+
+    // Mapper les numéros de mois aux noms de mois correspondants
+    HashMap<Integer, String> monthNames = new HashMap<>();
+    for (int i = 0; i < 12; i++) {
+        monthNames.put(i+1, months[i]);
+    }
+            while (rs.next()) {
+                int mois = rs.getInt("mois");
+                float total = rs.getInt("total");
+                        String monthName = monthNames.get(mois);
+
+                series.getData().add(new XYChart.Data<>(monthName, total));
+            }
+            LineChart.getData().add(series);
+           preparedStatement.close();
+            rs.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+           ObservableList<PieChart.Data> pieChartData = null;
+            try {
+            pieChartData = FXCollections.observableArrayList(
+            new PieChart.Data("Nombre des Factures Payées " , FactureService.CalculP()),
+           new PieChart.Data("Nombre de Factures Non Payées",  FactureService.CalculNonP()));
+         // pieChartData.get(0).getNode().setStyle("-fx-pie-color: #1E90FF;"); // Payées 
+           //pieChartData.get(1).getNode().setStyle("-fx-pie-color: #87CEFA;"); // Non payées 
+
+
+            } catch (SQLException ex) {
+            Logger.getLogger(Statistics.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            chart.setData(pieChartData);
+      // final Label caption = new Label("Heloooo");
+        //caption.setTextFill(Color.BLACK);
+      //  caption.setStyle("-fx-font: 24 arial;");            
+            for (PieChart.Data d : chart.getData()) {
+    d.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+        labelstat.setText(String.format(" %s : %d", d.getName(), (int)d.getPieValue()));
+    });
+                   //  caption.setTranslateX(e.getSceneX());
+               // caption.setTranslateY(e.getSceneY());
+               // caption.setText(String.valueOf(data.getPieValue()) + "%");
+ }
         try {
             
 
@@ -110,7 +248,7 @@ try {
         date.setCellValueFactory(new PropertyValueFactory<>("date"));
         montant.setCellValueFactory(new PropertyValueFactory<>("montant"));
        etat.setCellValueFactory(new PropertyValueFactory<>("etat"));
-             image_signature.setCellValueFactory(new PropertyValueFactory<>("image_signature"));
+        
 
 
         table_Facture.getItems().setAll(listFacture);
@@ -186,7 +324,6 @@ try {
          try {
             
         listFacture = FactureService.showFacture();
-        image_signature.setCellValueFactory(new PropertyValueFactory<>("image_signature"));
         date.setCellValueFactory(new PropertyValueFactory<>("date"));
         montant.setCellValueFactory(new PropertyValueFactory<>("montant"));
         etat.setCellValueFactory(new PropertyValueFactory<>("etat"));
