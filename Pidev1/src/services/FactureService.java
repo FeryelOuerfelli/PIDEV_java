@@ -254,24 +254,6 @@ while (resultat.next()) {
  return nombreFacturesNonPayees;
 }
            
-           
-                       public void Revenu() throws SQLException {
-         String sql = "SELECT date , SUM(montant) FROM facture GROUP BY date ORDER BY TIMESTAMP(date) ASC LIMIT 8";
-        
-      try {
-          XYChart.Series chartData = new XYChart.Series();
-            preparedStatement = cnx.prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
-     while (resultSet.next()) {
-         chartData.getData().add(new XYChart.Data(resultSet.getString(1),resultSet.getFloat(2)));
-
-      }
-      }
-      catch (Exception e) {
-      e.printStackTrace();}
-
-
-         
-}
+ 
             
      }

@@ -52,8 +52,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-      
-                 <Button fx:id="button_ajouter_facture" layoutX="565.0" layoutY="17.0" onAction="#ajouterFactureAction" prefHeight="25.0" prefWidth="125.0" text="Ajouter Facture" />
+        
          </children>
         </Pane>
               <TabPane fx:id="admintabpane" layoutX="190.0" layoutY="100.0" prefHeight="458.0" prefWidth="560.0" tabClosingPolicy="UNAVAILABLE">
@@ -64,15 +63,14 @@
 
                                      <children>
         
-        <TableView fx:id="table_Facture" layoutX="51.0" layoutY="15.0" prefHeight="400.0" prefWidth="452.0" style="-fx-background-color: #ddf8f8;">
+        <TableView fx:id="table_Facture" layoutX="5.0" layoutY="15.0" prefHeight="400.0" prefWidth="560.0" style="-fx-background-color: #ddf8f8;">
           
             <columns>
-           <TableColumn fx:id="date" minWidth="0.0" prefWidth="139.0" text="Date" />
-           <TableColumn fx:id="montant" minWidth="0.0" prefWidth="168.0" text="Montant" />
-          <TableColumn fx:id="etat" minWidth="0.0" prefWidth="139.0" text="Etat" />
-             <TableColumn fx:id="idph" minWidth="0.0" prefWidth="139.0" text="Id Pharmacie" />
-
-                     <TableColumn fx:id="image_signature" minWidth="1.0" prefWidth="100.0" text="image_signature" />
+           <TableColumn fx:id="date" minWidth="0.0" prefWidth="147.0" text="Date" />
+           <TableColumn fx:id="montant" minWidth="0.0" prefWidth="229.0" text="Montant" />
+          <TableColumn fx:id="etat" minWidth="0.0" prefWidth="166.0" text="Etat" />
+             <TableColumn fx:id="idph" minWidth="0.0" prefWidth="0.0" text="Id Pharmacie" />
+         <TableColumn fx:id="image_signature" minWidth="0.0" prefWidth="0.0" text="image_signature" />
 
 
 
@@ -125,7 +123,7 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   
                      <children>
-                        <PieChart fx:id="chart" layoutX="2.0" layoutY="6.0" prefHeight="438.0" prefWidth="568.0" stylesheets="@styles.css" />
+                        <PieChart fx:id="chart" layoutX="2.0" layoutY="6.0" prefHeight="438.0" prefWidth="568.0" />
                         <Label fx:id="labelstat" layoutX="6.0" layoutY="14.0" prefHeight="56.0" prefWidth="718.0" text="PieChart" textFill="#87CEFA">
                            <font>
                               <Font name="System Bold Italic" size="18.0" />
@@ -144,7 +142,7 @@
                               <Font name="System Bold Italic" size="18.0" />
                            </font>
                         </Label>
- <LineChart fx:id="LineChart" alternativeColumnFillVisible="true" layoutX="-2.0" layoutY="81.0" legendSide="RIGHT" prefHeight="279.0" prefWidth="544.0" stylesheets="@styles.css" title="Revenu">
+ <LineChart fx:id="LineChart" alternativeColumnFillVisible="true" layoutX="-2.0" layoutY="81.0" legendSide="RIGHT" prefHeight="279.0" prefWidth="544.0" stylesheets="@styles.css" title="Croissance de Revenu">
                     <xAxis>
                     <CategoryAxis side="BOTTOM" />
                     </xAxis>
@@ -207,7 +205,7 @@
                            <Image url="@images/iconUser.png" />
                         </image>
                      </ImageView>
-                     <Button mnemonicParsing="false" style="-fx-background-color: transparent;" onAction="#btnpharmaaction" text="Pharmacies">
+                     <Button mnemonicParsing="false" onAction="#btnpharmaaction" style="-fx-background-color: transparent;" text="Pharmacies">
                         <font>
                            <Font size="14.0" />
                         </font>
@@ -223,7 +221,7 @@
                      <Image url="@images/iconUser.png" />
                   </image>
                </ImageView>
-               <Button mnemonicParsing="false" style="-fx-background-color: transparent;" onAction="#btnfacaction" text="Factures">
+               <Button mnemonicParsing="false" onAction="#btnfacaction" style="-fx-background-color: transparent;" text="Factures">
                   <font>
                      <Font size="14.0" />
                   </font>

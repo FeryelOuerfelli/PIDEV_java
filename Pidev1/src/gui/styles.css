@@ -143,5 +143,8 @@
     -fx-bar-fill: #87CEFA;
 }
 .chart-pie {
-    -fx-pie-color: #007aff, #89cff0;
+    -fx-pie-color: #007aff, #ADD8E6;
+}
+.chart-series-line {
+    -fx-stroke: blue;
 }

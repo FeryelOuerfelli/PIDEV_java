@@ -6,9 +6,11 @@
 
 import controller.AfficherFacture;
 import controller.AfficherPharmacie;
+import controller.DashboardAdmin;
 import controller.AjouterFacture;
 import controller.AjouterPharmacie;
-import controller.CardController;
+import controller.Patient;
+import controller.Statistics;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -41,7 +43,7 @@ public class NewFXMain extends Application {
 try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("./gui/AfficherPharmacie.fxml"));
             AnchorPane root = loader.load();
-            AfficherPharmacie controller = loader.getController();
+           AfficherPharmacie controller = loader.getController();
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
             

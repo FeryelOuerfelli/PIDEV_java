@@ -61,6 +61,8 @@ public class AjouterPharmacie implements Initializable {
     private TextArea tf_services;
     @FXML
     private TextArea tf_description;
+    private static final String EMAIL_REGEX = "^[\\w\\d._%+-]+@[\\w\\d.-]+\\.[A-Za-z]{2,}$";
+
     
  
     
@@ -93,6 +95,14 @@ try{
             alert.setHeaderText(null);
             alert.setContentText("Vous devez entrez l'adresse");
             alert.showAndWait();  
+                 
+         }else if(tf_num_tel.getText().length()<8){
+             Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Votre numéro de telephone doit comporter au moins 8 numéro");
+                alert.showAndWait();
+                
+         
               }else if(tf_gouvernorat.getText().equals("")){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
@@ -130,6 +140,13 @@ try{
             alert.showAndWait(); 
              
             }
+                else if(!tf_email.getText().matches(EMAIL_REGEX)){
+           Alert alert = new Alert(Alert.AlertType.ERROR);
+             alert.setHeaderText(null);
+             alert.setContentText("Email invalide");
+             alert.showAndWait();
+         
+         }
         
         else{  
       

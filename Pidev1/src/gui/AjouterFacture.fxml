@@ -9,25 +9,28 @@
 
 <AnchorPane id="AnchorPane" prefHeight="554.0" prefWidth="494.0" style="-fx-background-color: #ddf8f8;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AjouterFacture">
    <children>
-      <Label layoutX="138.0" layoutY="14.0" text="Ajouter Facture" textAlignment="CENTER" textFill="#009688" underline="true">
+      <Label alignment="CENTER" layoutX="158.0" layoutY="47.0" text="Ajouter Facture" textAlignment="CENTER" textFill="#009688" underline="true">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Button fx:id="btn_submit" layoutX="273.0" layoutY="483.0" mnemonicParsing="false" onAction="#Valider" prefHeight="17.0" prefWidth="94.0" style="-fx-background-color: #68aeaa;" text="submit" />
-      <Button layoutX="117.0" layoutY="483.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" style="-fx-background-color: #68aeaa;" text="reset" />
-      <Label layoutX="5.0" layoutY="265.0" text="Etat" />     
-      <TextField fx:id="tf_etat" layoutX="87.0" layoutY="261.0" prefHeight="25.0" prefWidth="102.0" />
-      <Label layoutX="25.0" layoutY="143.0" text="Montant" />
-      <TextField fx:id="tf_montant" layoutX="87.0" layoutY="138.0" prefHeight="25.0" prefWidth="102.0" />
-      <Label layoutX="17.0" layoutY="187.0" text="Num Facture" />
-      <TextField fx:id="tf_num_facture" layoutX="87.0" layoutY="183.0" prefHeight="25.0" prefWidth="102.0" />
-      <Label layoutX="5.0" layoutY="227.0" text="image_signature" />
-      <TextField fx:id="tf_image_signature" layoutX="102.0" layoutY="223.0" prefHeight="25.0" prefWidth="102.0" />
-      <DatePicker fx:id="tf_date" layoutX="66.0" layoutY="340.0" />
-      <Label layoutX="14.0" layoutY="335.0" text="Date" />
-      <TextField fx:id="tf_ordonnance" layoutX="87.0" layoutY="303.0" prefHeight="25.0" prefWidth="102.0" />
-      <Label layoutX="16.0" layoutY="307.0" text="Ordonnance" />
+      <Label alignment="CENTER" layoutX="20.0" layoutY="265.0" text="Etat" />     
+      <TextField fx:id="tf_etat" alignment="CENTER" layoutX="152.0" layoutY="266.0" prefHeight="25.0" prefWidth="135.0" />
+      <Label alignment="TOP_LEFT" layoutX="19.0" layoutY="143.0" text="Montant" />
+      <TextField fx:id="tf_montant" alignment="CENTER" layoutX="151.0" layoutY="138.0" prefHeight="25.0" prefWidth="135.0" />
+      <Label alignment="CENTER" layoutX="17.0" layoutY="187.0" text="Num Facture" />
+      <TextField fx:id="tf_num_facture" alignment="CENTER" layoutX="153.0" layoutY="183.0" prefHeight="25.0" prefWidth="135.0" />
+      <Label alignment="CENTER" layoutX="18.0" layoutY="227.0" text="Signature" />
+      <TextField fx:id="tf_image_signature" alignment="CENTER" layoutX="153.0" layoutY="226.0" prefHeight="25.0" prefWidth="135.0" />
+      <DatePicker fx:id="tf_date" layoutX="152.0" layoutY="368.0" prefHeight="25.0" prefWidth="135.0" />
+      <Label layoutX="28.0" layoutY="362.0" text="Date" />
+      <TextField fx:id="tf_ordonnance" alignment="CENTER" layoutX="151.0" layoutY="315.0" prefHeight="25.0" prefWidth="135.0" />
+      <Label alignment="CENTER" layoutX="16.0" layoutY="307.0" text="Ordonnance" />
+      <Button fx:id="btn_submit" layoutX="163.0" layoutY="458.0" mnemonicParsing="false" onAction="#Valider" prefHeight="45.0" prefWidth="153.0" style="-fx-background-color: #15558d;" styleClass="my-button" text="Ajouter" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
      
    </children>
 </AnchorPane>

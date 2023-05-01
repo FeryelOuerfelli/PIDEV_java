@@ -99,6 +99,10 @@ public class Facture {
         this.ordonnance = ordonnance;
         this.idph = idph;     }
 
+    public Facture(int idph, Date date, String num_facture, Float montant, String etat, int ordonnance_id, int pharmacie_id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
    
 
     

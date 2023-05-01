@@ -50,6 +50,16 @@ public class Pharmacie {
         this.services =  services ;
        
     }
+              public Pharmacie(  String nom, String adresse, String num_tel, String email ,String etat) {
+         this.nom = nom;
+        this.adresse = adresse;
+        this.num_tel= num_tel;
+        this.email = email;
+    
+        this.etat = etat;
+       
+       
+    }
         public int getIdph() {
         return idph;
     }

@@ -65,26 +65,7 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-           <Tab fx:id="flous" text="Revenu">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <Label fx:id="labelstat2" layoutX="26.0" prefHeight="56.0" prefWidth="718.0" text="LineChart" textFill="#87CEFA">
-                           <font>
-                              <Font name="System Bold Italic" size="18.0" />
-                           </font>
-                        </Label>
-                        <LineChart layoutX="135.0" layoutY="56.0">
-                          <xAxis>
-                            <CategoryAxis side="BOTTOM" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis side="LEFT" />
-                          </yAxis>
-                        </LineChart>
-                     </children></AnchorPane>
-            </content>
-          </Tab>
+           
         
             
         </tabs>

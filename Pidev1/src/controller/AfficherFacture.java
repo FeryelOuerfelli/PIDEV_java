@@ -128,17 +128,17 @@ public class AfficherFacture implements Initializable {
     private TableColumn<Facture, Integer > idf;   
     @FXML
     private TableColumn<Facture, Float> montant; 
-      @FXML
+    @FXML
     private TableColumn<Facture, Date> date;   
-          @FXML
+    @FXML
     private TableColumn<Facture, Integer> idph; 
     @FXML
     private TableColumn<Facture, String> image_signature;   
     @FXML
     private TableColumn<Facture, String> num_facture; 
-     @FXML
+    @FXML
     private TableColumn<Facture, String>etat; 
-      @FXML
+    @FXML
     private Button pdffacturebtn;
     @FXML
     private Button pdffacture;
@@ -248,6 +248,7 @@ try {
         date.setCellValueFactory(new PropertyValueFactory<>("date"));
         montant.setCellValueFactory(new PropertyValueFactory<>("montant"));
        etat.setCellValueFactory(new PropertyValueFactory<>("etat"));
+       image_signature.setCellValueFactory(new PropertyValueFactory<>("image_signature"));
         
 
 
