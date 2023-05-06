@@ -9,6 +9,8 @@
 
 <AnchorPane id="AnchorPane" prefHeight="554.0" prefWidth="494.0" style="-fx-background-color: #ddf8f8;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AjouterFacture">
    <children>
+              <Button fx:id="browseButtonImage" layoutX="157.0" layoutY="223.0" onAction="#handleBrowseButtonAction" text="Choisir une image" textFill="#0a0ae4" />
+
       <Label alignment="CENTER" layoutX="158.0" layoutY="47.0" text="Ajouter Facture" textAlignment="CENTER" textFill="#009688" underline="true">
          <font>
             <Font size="24.0" />
@@ -21,7 +23,8 @@
       <Label alignment="CENTER" layoutX="17.0" layoutY="187.0" text="Num Facture" />
       <TextField fx:id="tf_num_facture" alignment="CENTER" layoutX="153.0" layoutY="183.0" prefHeight="25.0" prefWidth="135.0" />
       <Label alignment="CENTER" layoutX="18.0" layoutY="227.0" text="Signature" />
-      <TextField fx:id="tf_image_signature" alignment="CENTER" layoutX="153.0" layoutY="226.0" prefHeight="25.0" prefWidth="135.0" />
+       <AnchorPane fx:id="myAnchorPane" layoutX="309.0" layoutY="242.0" prefHeight="71.0" prefWidth="144.0" />
+
       <DatePicker fx:id="tf_date" layoutX="152.0" layoutY="368.0" prefHeight="25.0" prefWidth="135.0" />
       <Label layoutX="28.0" layoutY="362.0" text="Date" />
       <TextField fx:id="tf_ordonnance" alignment="CENTER" layoutX="151.0" layoutY="315.0" prefHeight="25.0" prefWidth="135.0" />

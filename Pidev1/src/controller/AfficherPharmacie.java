@@ -55,11 +55,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import services.PharmacieService;
 import utils.MyConnection;
-
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  * FXML Controller class
@@ -73,6 +77,8 @@ public class AfficherPharmacie implements Initializable {
 
     @FXML
     private Button btnpharma;
+    
+    
     
     @FXML
     void btnfacaction(ActionEvent event) throws IOException {
@@ -147,6 +153,8 @@ public class AfficherPharmacie implements Initializable {
     private TableColumn<Pharmacie, Button> deleteCol; 
      @FXML
     private Button  printbtn;
+      @FXML
+    private Button  downloadbtn;
         @FXML
     private ImageView img;
     private final Connection cnx;
@@ -220,6 +228,60 @@ public class AfficherPharmacie implements Initializable {
      }
      }
     }
+       @FXML
+ public void download() throws SQLException  {
+    FileChooser fileChooser = new FileChooser();// Create a new FileChooser object
+    fileChooser.setTitle("Télecharger La liste des Pharmacies");// Set the title of the dialog box       
+    fileChooser.setInitialFileName("Pharmacies.xlsx");// Set the default file name
+    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Excel files (*.xlsx)", "*.xlsx");  // Set the file extension filter
+    fileChooser.getExtensionFilters().add(extFilter);
+    File file = fileChooser.showSaveDialog(new Stage());// Get the file path from the user     
+    try {
+        createExcelFile(file.getAbsolutePath()); // Call the method to create the Excel file and pass the file path
+    } catch (IOException ex) {
+        System.out.println(ex.getMessage());
+    }
+}
+private void createExcelFile(String filePath) throws IOException, SQLException {
+
+    Workbook workbook = new XSSFWorkbook(); // Create a new sheet 
+    Sheet sheet = workbook.createSheet("Pharmacies"); // Create a new sheet
+    Row headerRow = sheet.createRow(0); // Create a header row
+        headerRow.createCell(0).setCellValue("Nom");
+        headerRow.createCell(1).setCellValue("Adresse");
+        headerRow.createCell(2).setCellValue("Gouvernorat");
+        headerRow.createCell(3).setCellValue("Numéro de télephone");
+        headerRow.createCell(4).setCellValue("Email");
+        headerRow.createCell(5).setCellValue("Etat");
+        headerRow.createCell(6).setCellValue("Horaire");
+        headerRow.createCell(7).setCellValue("Services");
+                
+        // Add data to the sheet
+        int rowNum = 1;
+        List<Pharmacie> listPharmacie ;
+        PharmacieService PharmacieService = new PharmacieService();
+        listPharmacie= PharmacieService.showPharmacie();
+        for (Pharmacie ph : listPharmacie) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(ph.getNom());
+            row.createCell(1).setCellValue(ph.getAdresse());
+            row.createCell(2).setCellValue(ph.getGouvernorat());
+            row.createCell(3).setCellValue(ph.getNum_tel());
+            row.createCell(4).setCellValue(ph.getEmail());
+            row.createCell(5).setCellValue(ph.getEtat());
+            row.createCell(6).setCellValue(ph.getHoraire());
+            row.createCell(7).setCellValue(ph.getServices());
+           
+        }   // Auto-size the columns
+        for (int i = 0; i < 8; i++) {
+            sheet.autoSizeColumn(i);
+        }  
+    try (FileOutputStream fileOut = new FileOutputStream(filePath) // Save the workbook to the specified file path
+    ) {
+        workbook.write(fileOut);
+        fileOut.close();
+    }
+} 
        
      @FXML
     private void EditPharmacie(ActionEvent event) throws IOException {

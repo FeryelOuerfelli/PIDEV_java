@@ -3,8 +3,12 @@ package controller;
 
 import entities.Facture;
 import entities.Pharmacie;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.text.ParseException;
@@ -28,6 +32,11 @@ import javafx.stage.Stage;
 import services.FactureService;
 import utils.MyConnection;
 import javafx.scene.control.DatePicker;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 
 public class AjouterFacture implements Initializable{
@@ -48,14 +57,37 @@ public class AjouterFacture implements Initializable{
      
  @FXML
    private TextField  tf_etat;
+
+
  @FXML
    private TextField tf_ordonnance ;
+        @FXML
+        private Button browseButtonImage;
+    private File selectedFile;
+    private Image selectedImage;
  
     private final Connection cnx;
     private PreparedStatement ste;
     
     private int pharmacieId;
+       @FXML
+        private AnchorPane myAnchorPane;
 
+            @FXML
+    private void handleBrowseButtonAction(ActionEvent event) throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(
+                new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
+    selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            selectedImage = new Image(selectedFile.toURI().toString());
+            ImageView imageView = new ImageView(selectedImage);
+            imageView.setPreserveRatio(true);
+            imageView.setFitWidth(165);
+            imageView.setFitHeight(130);
+            myAnchorPane.getChildren().add(imageView);
+        }
+    }
 
     public AjouterFacture() {
         MyConnection bd=MyConnection.getInstance();
@@ -79,7 +111,7 @@ public class AjouterFacture implements Initializable{
 
      try{
          
-         if(tf_image_signature.getText().equals("")){
+         if(tf_num_facture.getText().equals("")){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
             alert.setContentText("Vous devez entrez une date de debut");
@@ -92,9 +124,16 @@ public class AjouterFacture implements Initializable{
                  Date date = dateFormat.parse(tf_date.getValue().toString());
                      float montant = Float.parseFloat(tf_montant.getText());
                     String num_facture = tf_num_facture.getText();
-                      String image_signature = tf_image_signature.getText();
+                      String image_signature = null;
                        String etat =  tf_etat.getText();
                       int ordonnance = Integer.parseInt(tf_ordonnance.getText());
+                      try {
+        image_signature = selectedFile.getName();
+        
+    } catch (NullPointerException ex) {
+        System.out.println("Erreur : Fichier image introuvable");
+        return;
+    }
 
                  System.out.println("date controller"+date);
                  
